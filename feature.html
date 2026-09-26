@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f4f2ee">
+    <title>Sign in to Figma</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: "DM Sans", sans-serif;
+            color: #22211f;
+            background: #f4f2ee;
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            --muted: #77756f;
+            --line: #dedcd6;
+            --violet: #635bff;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            display: grid;
+            min-width: 320px;
+            min-height: 100vh;
+            margin: 0;
+            padding: 34px;
+            place-items: center;
+            background-image: radial-gradient(#d9d6cf 0.7px, transparent 0.7px);
+            background-size: 20px 20px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1.03fr 0.97fr;
+            width: min(100%, 1120px);
+            min-height: 690px;
+            overflow: hidden;
+            border: 1px solid rgb(34 33 31 / 8%);
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 24px 70px rgb(45 42 34 / 10%);
+            animation: enter 450ms ease-out both;
+        }
+
+        .visual {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            padding: 40px 44px;
+            background: #f6c8b7;
+        }
+
+        .visual::before,
+        .visual::after {
+            position: absolute;
+            content: "";
+            pointer-events: none;
+        }
+
+        .visual::before {
+            top: 17%;
+            right: -105px;
+            width: 390px;
+            height: 390px;
+            border: 1px solid rgb(43 32 28 / 13%);
+            border-radius: 50%;
+            box-shadow: 0 0 0 38px rgb(255 255 255 / 15%), 0 0 0 76px rgb(255 255 255 / 10%);
+        }
+
+        .visual::after {
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 36%;
+            background: linear-gradient(0deg, rgb(242 116 94 / 14%), transparent);
+        }
+
+        .logo {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            width: fit-content;
+            align-items: center;
+            gap: 10px;
+            color: #22211f;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 23px;
+            font-weight: 700;
+        }
+
+        .figma-mark {
+            display: grid;
+            width: 24px;
+            height: 36px;
+            grid-template: repeat(3, 12px) / repeat(2, 12px);
+        }
+
+        .figma-mark span:nth-child(1) { border-radius: 7px 0 0 7px; background: #f24e1e; }
+        .figma-mark span:nth-child(2) { border-radius: 0 7px 7px 0; background: #ff7262; }
+        .figma-mark span:nth-child(3) { border-radius: 7px 0 0 7px; background: #a259ff; }
+        .figma-mark span:nth-child(4) { border-radius: 50%; background: #1abcfe; }
+        .figma-mark span:nth-child(5) { border-radius: 7px 0 7px 7px; background: #0acf83; }
+
+        .composition {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            width: min(100%, 390px);
+            aspect-ratio: 1.15;
+            align-self: center;
+            place-items: center;
+            transform: translateY(8px);
+        }
+
+        .blob {
+            position: absolute;
+            width: 80%;
+            height: 70%;
+            border-radius: 48% 52% 59% 41% / 41% 52% 48% 59%;
+            background: #efa990;
+            transform: rotate(-12deg);
+        }
+
+        .board {
+            position: relative;
+            display: grid;
+            width: 70%;
+            aspect-ratio: 1.08;
+            align-content: start;
+            gap: 15px;
+            padding: 18px;
+            border: 1px solid rgb(34 33 31 / 8%);
+            border-radius: 8px;
+            background: #fffdfa;
+            box-shadow: 0 20px 46px rgb(103 58 45 / 21%);
+            transform: rotate(-6deg);
+        }
+
+        .board-head { display: flex; align-items: center; justify-content: space-between; }
+        .dots { display: flex; gap: 5px; }
+        .dots i { width: 6px; height: 6px; border-radius: 50%; background: #e7e3dc; }
+        .dots i:first-child { background: #ff7262; }
+        .board-line { width: 34px; height: 5px; border-radius: 5px; background: #e7e3dc; }
+
+        .art-grid {
+            display: grid;
+            height: 74%;
+            grid-template: 1fr 1fr / 1fr 0.78fr;
+            gap: 9px;
+        }
+
+        .tile { border-radius: 5px; }
+        .tile:first-child { grid-row: span 2; background: #afe1cc; }
+        .tile:nth-child(2) { background: #ffd56b; }
+        .tile:nth-child(3) { background: #b7d8fc; }
+
+        .caption {
+            position: relative;
+            z-index: 1;
+            max-width: 390px;
+        }
+
+        .caption-label {
+            margin: 0 0 12px;
+            color: #77483d;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .caption h2 {
+            margin: 0;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(30px, 3.4vw, 43px);
+            font-weight: 600;
+            line-height: 1.08;
+        }
+
+        .caption p:last-child { max-width: 310px; margin: 14px 0 0; color: #684b44; font-size: 14px; line-height: 1.65; }
+
+        .main {
+            display: grid;
+            padding: 54px clamp(36px, 6vw, 76px);
+            place-items: center;
+        }
+
+        .form-wrap { width: 100%; max-width: 370px; }
+        .mobile-logo { display: none; }
+
+        h1 {
+            margin: 0;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 34px;
+            font-weight: 600;
+            line-height: 1.15;
+        }
+
+        .intro { margin: 12px 0 29px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+        .field { margin-top: 17px; }
+        label { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; }
+
+        .input-wrap { position: relative; }
+
+        input {
+            width: 100%;
+            height: 48px;
+            padding: 0 13px;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            outline: none;
+            background: #fff;
+            color: #22211f;
+            font: inherit;
+            font-size: 14px;
+            transition: border-color 150ms ease, box-shadow 150ms ease;
+        }
+
+        input::placeholder { color: #a09e99; }
+        input:focus { border-color: var(--violet); box-shadow: 0 0 0 3px rgb(99 91 255 / 13%); }
+
+        .password-input { padding-right: 65px; }
+
+        .show-password {
+            position: absolute;
+            top: 50%;
+            right: 11px;
+            padding: 5px;
+            border: 0;
+            background: transparent;
+            color: #65635e;
+            cursor: pointer;
+            font: inherit;
+            font-size: 12px;
+            transform: translateY(-50%);
+        }
+
+        .forgot-row { display: flex; justify-content: flex-end; margin: 12px 0 20px; }
+
+        a { color: #5548d9; font-size: 13px; font-weight: 600; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .primary, .google {
+            display: flex;
+            width: 100%;
+            min-height: 47px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            cursor: pointer;
+            font: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 150ms ease, transform 150ms ease;
+        }
+
+        .primary { border: 0; background: #22211f; color: #fff; }
+        .primary:hover { background: #41403d; }
+        .primary:active, .google:active { transform: translateY(1px); }
+        .google { gap: 10px; border: 1px solid var(--line); background: #fff; color: #22211f; }
+        .google:hover { background: #faf9f7; }
+        .google-g { color: #4285f4; font-family: Arial, sans-serif; font-size: 17px; font-weight: 700; }
+
+        .divider { display: flex; align-items: center; gap: 14px; margin: 20px 0; color: #898781; font-size: 12px; }
+        .divider::before, .divider::after { height: 1px; flex: 1; background: #e9e7e2; content: ""; }
+        .signup { margin: 25px 0 0; color: var(--muted); text-align: center; font-size: 13px; }
+        .signup a { margin-left: 3px; }
+        .back-link { display: inline-flex; align-items: center; gap: 9px; margin-bottom: 43px; color: #65635e; }
+        .back-link:hover { color: #22211f; text-decoration: none; }
+        .back-arrow { width: 8px; height: 8px; border-bottom: 1.5px solid currentColor; border-left: 1.5px solid currentColor; transform: rotate(45deg); }
+        [hidden] { display: none !important; }
+
+        .message { min-height: 20px; margin: 14px 0 0; color: #286b43; font-size: 13px; line-height: 1.5; }
+        .message:empty { display: none; }
+        .reset-help { margin: 0 0 25px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+        .reset-note { margin: 17px 0 0; color: #85837d; font-size: 12px; line-height: 1.55; }
+
+        button:focus-visible, a:focus-visible { outline: 3px solid rgb(99 91 255 / 45%); outline-offset: 3px; }
+
+        @keyframes enter {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 760px) {
+            body { padding: 0; background: #fff; background-image: none; }
+            .layout { display: block; width: min(100%, 520px); min-height: 100vh; border: 0; border-radius: 0; box-shadow: none; }
+            .visual { display: none; }
+            .main { min-height: 100vh; padding: 42px 30px; align-content: center; }
+            .mobile-logo { display: inline-flex; margin-bottom: 48px; }
+        }
+
+        @media (max-width: 380px) {
+            .main { padding: 30px 22px; }
+            .mobile-logo { margin-bottom: 38px; }
+            h1 { font-size: 30px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body>
+    <main class="layout">
+        <section class="visual" aria-label="Figma">
+            <div class="logo">
+                <span class="figma-mark" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
+                <span>Figma</span>
+            </div>
+            <div class="composition" aria-hidden="true">
+                <div class="blob"></div>
+                <div class="board">
+                    <div class="board-head"><div class="dots"><i></i><i></i><i></i></div><div class="board-line"></div></div>
+                    <div class="art-grid"><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
+                </div>
+            </div>
+            <div class="caption">
+                <p class="caption-label">Make it together</p>
+                <h2>Ideas take shape when we make them together.</h2>
+                <p>One space for every part of your creative process.</p>
+            </div>
+        </section>
+
+        <section class="main" aria-label="Account access">
+            <div class="form-wrap">
+                <div class="logo mobile-logo">
+                    <span class="figma-mark" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
+                    <span>Figma</span>
+                </div>
+
+                <div id="login-view">
+                    <h1>Welcome back</h1>
+                    <p class="intro">Log in to your Figma account</p>
+                    <form id="login-form">
+                        <div class="field">
+                            <label for="login-email">Email</label>
+                            <input id="login-email" name="email" type="email" placeholder="name@example.com" autocomplete="email" required>
+                        </div>
+                        <div class="field">
+                            <label for="password">Password</label>
+                            <div class="input-wrap">
+                                <input class="password-input" id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required>
+                                <button class="show-password" id="toggle-password" type="button" aria-label="Show password">Show</button>
+                            </div>
+                        </div>
+                        <div class="forgot-row"><a href="#forgot-password" id="forgot-link">Forgot password?</a></div>
+                        <button class="primary" type="submit">Log in</button>
+                    </form>
+                    <div class="divider">or</div>
+                    <button class="google" id="google-button" type="button"><span class="google-g" aria-hidden="true">G</span> Continue with Google</button>
+                    <p class="signup">Don’t have an account? <a href="https://www.figma.com/signup/">Create one</a></p>
+                    <p class="message" id="login-message" role="status" aria-live="polite"></p>
+                </div>
+
+                <div id="reset-view" hidden>
+                    <a class="back-link" href="#sign-in" id="back-link"><span class="back-arrow" aria-hidden="true"></span>Back to sign in</a>
+                    <h1>Forgot your password?</h1>
+                    <p class="reset-help">Enter the email address linked to your account and we’ll send you a link to reset your password.</p>
+                    <form id="reset-form">
+                        <div class="field">
+                            <label for="reset-email">Email address</label>
+                            <input id="reset-email" name="email" type="email" placeholder="name@example.com" autocomplete="email" required>
+                        </div>
+                        <button class="primary" type="submit" style="margin-top: 20px">Send reset link</button>
+                        <p class="reset-note">If an account exists for this email, you’ll receive instructions shortly.</p>
+                    </form>
+                    <p class="message" id="reset-message" role="status" aria-live="polite"></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const loginView = document.getElementById("login-view");
+        const resetView = document.getElementById("reset-view");
+        const password = document.getElementById("password");
+        const togglePassword = document.getElementById("toggle-password");
+
+        function showResetView() {
+            loginView.hidden = true;
+            resetView.hidden = false;
+            document.getElementById("reset-email").focus();
+        }
+
+        function showLoginView() {
+            resetView.hidden = true;
+            loginView.hidden = false;
+            document.getElementById("login-email").focus();
+        }
+
+        document.getElementById("forgot-link").addEventListener("click", (event) => {
+            event.preventDefault();
+            showResetView();
+        });
+
+        document.getElementById("back-link").addEventListener("click", (event) => {
+            event.preventDefault();
+            showLoginView();
+        });
+
+        togglePassword.addEventListener("click", () => {
+            const isHidden = password.type === "password";
+            password.type = isHidden ? "text" : "password";
+            togglePassword.textContent = isHidden ? "Hide" : "Show";
+            togglePassword.setAttribute("aria-label", isHidden ? "Hide password" : "Show password");
+        });
+
+        document.getElementById("login-form").addEventListener("submit", (event) => {
+            event.preventDefault();
+            document.getElementById("login-message").textContent = "Sign-in is a frontend demo. Connect an authentication service to log in.";
+        });
+
+        document.getElementById("reset-form").addEventListener("submit", (event) => {
+            event.preventDefault();
+            if (!event.currentTarget.reportValidity()) return;
+            const email = document.getElementById("reset-email").value;
+            document.getElementById("reset-message").textContent = `If an account exists for ${email}, a reset link is on its way.`;
+        });
+
+        document.getElementById("google-button").addEventListener("click", () => {
+            document.getElementById("login-message").textContent = "Google sign-in needs an authentication provider to be connected.";
+        });
+    </script>
+</body>
+</html>
